@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>SSE from Axum</h1>
+    <ul id="output"></ul>
+
+    <script>
+      const evtSource = new EventSource("http://localhost:3000/events");
+      evtSource.onmessage = function(event) {
+        const li = document.createElement("li");
+        li.textContent = event.data;
+        document.getElementById("output").appendChild(li);
+      };
+      evtSource.addEventListener("close",function(event){
+          const li = document.createElement("li");
+          li.textContent="连接已结束: "+ event.data;
+          document.getElementById("output").appendChild(li);
+          evtSource.close();
+      })
+      
+    </script>
+  </body>
+</html>
